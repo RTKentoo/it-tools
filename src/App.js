@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import AccountSyntax from './components/Tools/AccountSyntax'
 import NavBar from './components/NavBar/NavBar'
 
