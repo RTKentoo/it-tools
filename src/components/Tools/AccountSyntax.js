@@ -22,8 +22,8 @@ class AccountSyntax extends Component {
 
 	onClick = () => {
 		if(this.state.accountToolUserInput != null) {
-			let str = this.state.accountToolUserInput;
-		
+			let str = this.state.accountToolUserInput.replace(/\s/g,'');
+			
 
 		// formatAccount(str)
 
@@ -46,7 +46,7 @@ class AccountSyntax extends Component {
 				accountToolUserInput: "",
 				convertedAccount: finalAccountsList
 			})
-			
+
 		} else {
 			this.setState(() => ({
 				...this.state,
