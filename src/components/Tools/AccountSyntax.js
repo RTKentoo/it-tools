@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import tachyons from 'tachyons'
 
 class AccountSyntax extends Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
-			accountSyntaxToolInput: "",
+			accountToolUserInput: "",
 			convertedAccount: ""
 		}
 
@@ -13,50 +14,61 @@ class AccountSyntax extends Component {
 		this.clearField = this.clearField.bind(this)
 	}
 
-	clearField = () => 
-		this.setState({
-			accountSyntaxToolInput: ''
-		})
+	clearField = () => this.setState({ 
+		accountToolUserInput: null, 
+		convertedAccount: "" 
+	})
 
-	onClick() {
-		let str = this.state.accountSyntaxToolInput;
-		str = str.replace(/\s/g,'')
-		console.log(str)
 
-		if(str.length % 7 != 0) {
-			this.setState(() => ({convertedAccount: "Account list not divisible by 7. "
-				+ "Cancelling operation."}))
-		} else {
+	onClick = () => {
+		if(this.state.accountToolUserInput != null) {
+			let str = this.state.accountToolUserInput.replace(/\s/g,'');
+			
+
+		// formatAccount(str)
+
+		if(str.length % 7 === 0) {
 			console.log(str)
 			let accounts = []
 			let finalAccountsList = ""
+
 			for(let i=0, charsLength = str.length; i < charsLength; i+=7) {
-				accounts.push(str.substring(i, i+7));
+				accounts.push(str.substring(i, i+7))
 			}
 
 			for(let account of accounts) {
-				finalAccountsList += account + "|";
+					finalAccountsList += account + "|"
 			}
 
+			finalAccountsList = finalAccountsList.slice(0, -1)
+
 			this.setState({
-				accountSyntaxToolInput: '',
+				accountToolUserInput: "",
 				convertedAccount: finalAccountsList
 			})
-		}
+
+		} else {
+			this.setState(() => ({
+				...this.state,
+				convertedAccount: "Not a valid account string"}))
+		}}
 	}
 
-	onChange = (event) => this.setState({accountSyntaxToolInput: event.target.value})
+	onChange = (event) => this.setState({...this.state, accountToolUserInput: event.target.value})
 
 	render() {
 		return(
-			<div className="tc">
+			<div className="flex flex-column items-center tc">
 				<h2>Account Syntax Tool</h2>{}
-				<textarea className="h5" onChange={this.onChange}>{this.accountSyntaxToolInput}</textarea>
+				<textarea className="h5 mw9" onChange={this.onChange}>{this.accountToolUserInput}</textarea>
 				<br />
 				<button onClick={this.onClick}>Submit</button>
 				<button onClick={this.clearField}>Clear</button>
 				<br />
-				<p>{this.state.convertedAccount}</p>
+				<p>Output</p>
+				<div className="ba w5 h5 mw9">
+					<p>{this.state.convertedAccount}</p>
+				</div>
 			</div>
 		)
 	}
